@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socially</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: none; /* Hide by default, show if profile pic is available */
+        }
+        .like-button.liked {
+            color: red; /* Change color if liked */
+        }
+        .comments-container {
+            display: none; /* Hide comments by default */
+        }
+        .gpt-suggestion-button {
+            width: 100%; /* Adjust as needed to fit the layout */
+            max-width: 300px; /* Set a maximum width for the button */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <a class="navbar-brand text-white" href="#">Socially</a>
+        <div class="ml-auto d-flex align-items-center">
+            <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
+            <span id="user-name" class="text-white ml-2"></span>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Left Part: Navigation Icons -->
+            <div class="col-md-2 d-flex flex-column align-items-center pt-4">
+                <a href="#" class="mb-3"><i class="bi bi-house-door-fill display-4"></i></a>
+                <a href="#" id="profile-icon" class="mb-3"><i class="bi bi-person-fill display-4"></i></a>
+                <a href="#"  id="logout-button" class="mb-3"><i class="bi bi-box-arrow-right display-4"></i></a>
+            </div>
+
+            <!-- Middle Part: Post Feed -->
+            <div class="col-md-8">
+                <div class="post-box p-4 mt-4 shadow">
+                    <textarea class="form-control mb-2" rows="3" id="post-content" placeholder="What's on your mind?"></textarea>
+                    <div id="gpt-suggestion-box" class="mt-2"></div>
+                    <button class="btn btn-primary btn-block" id="gpt-suggestion-button" disabled>Get GPT's Suggestion</button>
+                    <button class="btn btn-primary btn-block" id="post-button">Post</button>
+                    <div id="error-message" class="alert alert-danger mt-2 d-none"></div>
+                    
+
+
+                </div>
+                <div id="posts-container">
+                    <!-- Posts will be appended here -->
+                </div>
+            </div>
+
+            <!-- Right Part: Empty -->
+            <div class="col-md-2">
+                <!-- You can add additional content here if needed -->
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'sociallyapp/script.js' %}"></script>
+   
+</body>
+</html>

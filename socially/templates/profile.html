@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socially - Profile</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        .cover-photo {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .profile-pic-2 {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-top: -100px;
+            position: relative;
+        }
+        .comments-container {
+            display: none; /* Hide comments by default */
+        }
+        .upload-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+        }
+        .cover-pic-upload {
+            position: relative;
+        }
+        .cover-pic-upload .upload-icon {
+            top: 10px;
+            right: 10px;
+            left: auto;
+            transform: none;
+        }
+        .like-button.liked {
+            color: red; /* Change color if liked */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <a class="navbar-brand text-white" href="#">Socially</a>
+        <div class="ml-auto d-flex align-items-center">
+            <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
+            <span id="user-name" class="text-white ml-2"></span>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Left Part: Navigation Icons -->
+            <div class="col-md-2 d-flex flex-column align-items-center pt-4">
+                <a href="/home/" class="mb-3"><i class="bi bi-house-door-fill display-4"></i></a>
+                <a href="#" class="mb-3" id="profile-icon"><i class="bi bi-person-fill display-4"></i></a>
+                <a href="#" id="logout-button" class="mb-3"><i class="bi bi-box-arrow-right display-4"></i></a>
+            </div>
+
+            <!-- Middle Part: Profile -->
+            <div class="col-md-8">
+                <!-- Cover Photo -->
+                <div class="cover-photo cover-pic-upload" id="cover-photo" style="background-image: url('');  background-color: #ccc; height: 200px; background-size: cover; background-position: center; border-bottom: 1px solid #ddd;">
+                    <i class="bi bi-camera-fill upload-icon" id="cover-upload-icon" style="display:none;"></i>
+                    <input type="file" id="cover-pic-input" accept="image/*" style="display:none;">
+                </div>
+                
+                <!-- Profile Picture and Info -->
+                <div class="profile-info p-4">
+                    <div class="profile-pic-upload">
+                        <img id="profile-picture" src="" class="profile-pic-2 rounded-circle" alt="Profile Picture">
+                        <span><i class="bi bi-camera-fill " id="profile-upload-icon" style="display:none;"></i></span>
+                        <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
+                    </div>
+                    <h2 id="user-full-name"></h2>
+                    <p id="user-username"></p>
+                    <div class="d-flex">
+                        <p class="mr-3">Followers: {{profileUserData.followers_count}}</p>
+                        <p>Followings: {{profileUserData.following_count}}</p>
+                    </div>
+                    <!-- Follow Button -->
+                    
+                    <button class="btn btn-primary" id="follow-button" style="display:none;">Follow</button>
+                    
+                </div>
+                
+                <!-- Posts Section -->
+                <div id="posts-container">
+                    <!-- Posts will be appended here -->
+                </div>
+            </div>
+
+            <!-- Right Part: Empty -->
+            <div class="col-md-2">
+                <!-- You can add additional content here if needed -->
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'sociallyapp/script2.js' %}"></script>
+    
+</body>
+</html>

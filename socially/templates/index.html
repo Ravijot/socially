@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media - Login</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#login-form').on('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get form data
+                const email = $('#email').val();
+                const password = $('#password').val();
+
+                // Prepare payload
+                const payload = {
+                    email: email,
+                    password: password
+                };
+
+                // API URL
+                const apiUrl = 'http://localhost:8000/login/';
+
+                // Make API request
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => {
+                    return response.json().then(data => {
+                        if (!response.ok) {
+                            throw new Error(data.detail || 'Login failed');
+                        }
+                        return data;
+                    });
+                })
+                .then(data => {
+                    // Check if the access token is present in the response
+                    if (data.access) {
+                        // Store user data in local storage
+                        localStorage.setItem('userId', data.id);
+                        localStorage.setItem('firstName', data.first_name);
+                        localStorage.setItem('lastName', data.last_name);
+                        localStorage.setItem('username', data.username);
+                        localStorage.setItem('email', data.email);
+                        localStorage.setItem('profilePic', data.profile_pic);
+                        localStorage.setItem('coverPic', data.cover_pic);
+                        localStorage.setItem('refreshToken', data.refresh);
+                        localStorage.setItem('accessToken', data.access);
+
+                        // Redirect to the home page
+                        window.location.href = '/home';
+                    } else {
+                        throw new Error('No access token received');
+                    }
+                })
+                .catch(error => {
+                    // Show error message
+                    $('#error-message').text(error.message).removeClass('d-none');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="token-display" class="d-none">
+        <p>Your token: <span id="token-value"></span></p>
+    </div>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-4 shadow" style="width: 400px;">
+            <h2 class="text-center mb-4">Login</h2>
+            <form id="login-form" method="post" action="/login/">
+                <div id="error-message" class="alert alert-danger d-none"></div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <div class="text-center mt-3">
+                    <a href="/register">Don't have an account? Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

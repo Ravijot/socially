@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media - Create Account</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-4 shadow" style="width: 400px;">
+            <h2 class="text-center mb-4">Create Account</h2>
+            <form id="register-form">
+                <div id="error-message" class="alert alert-danger d-none"></div>
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" class="form-control" id="first_name" placeholder="Enter first name">
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" placeholder="Enter last name">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                <div class="text-center mt-3">
+                    <a href="/login/">Already have an account? Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#register-form').on('submit', function(event) {
+                event.preventDefault();
+
+                const firstName = $('#first_name').val();
+                const lastName = $('#last_name').val();
+                const username = $('#username').val();
+                const email = $('#email').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: '/register/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        first_name: firstName,
+                        last_name: lastName,
+                        username: username,
+                        email: email,
+                        password: password
+                    }),
+                    success: function(response) {
+                        // Handle successful registration
+                        window.location.href = '/login/';  // Redirect to login page
+                    },
+                    error: function(xhr) {
+                        // Handle registration error
+                        let errorDiv = $('#error-message');
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorDiv.text(xhr.responseJSON.error);
+                        } else {
+                            errorDiv.text('An error occurred during registration.');
+                        }
+                        errorDiv.removeClass('d-none');  // Make the error div visible
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
